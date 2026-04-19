@@ -270,25 +270,47 @@ class GaussianRasterizer(nn.Module):
             raise Exception(
                 'Please provide exactly rotations_r and scales_t and ts if rot_4d and cov3D_precomp is None!')
 
+        device = means3D.device
+
         if shs is None:
-            shs = torch.Tensor([])
+            shs = torch.empty(0, device=device)
         if colors_precomp is None:
-            colors_precomp = torch.Tensor([])
+            colors_precomp = torch.empty(0, device=device)
         if flow_2d is None:
-            flow_2d = torch.Tensor([])
+            flow_2d = torch.empty(0, device=device)
 
         if ts is None:
-            ts = torch.Tensor([])
+            ts = torch.empty(0, device=device)
         if scales is None:
-            scales = torch.Tensor([])
+            scales = torch.empty(0, device=device)
         if scales_t is None:
-            scales_t = torch.Tensor([])
+            scales_t = torch.empty(0, device=device)
         if rotations is None:
-            rotations = torch.Tensor([])
+            rotations = torch.empty(0, device=device)
         if rotations_r is None:
-            rotations_r = torch.Tensor([])
+            rotations_r = torch.empty(0, device=device)
         if cov3D_precomp is None:
-            cov3D_precomp = torch.Tensor([])
+            cov3D_precomp = torch.empty(0, device=device)
+
+        means3D = means3D.contiguous()
+        means2D = means2D.contiguous()
+        opacities = opacities.contiguous()
+        scales = scales.contiguous()
+        rotations = rotations.contiguous()
+        ts = ts.contiguous()
+
+        if scales_t.numel() > 0:
+            scales_t = scales_t.contiguous()
+        if rotations_r.numel() > 0:
+            rotations_r = rotations_r.contiguous()
+        if cov3D_precomp.numel() > 0:
+            cov3D_precomp = cov3D_precomp.contiguous()
+        if shs.numel() > 0:
+            shs = shs.contiguous()
+        if colors_precomp.numel() > 0:
+            colors_precomp = colors_precomp.contiguous()
+        if flow_2d.numel() > 0:
+            flow_2d = flow_2d.contiguous()
 
         # Invoke C++/CUDA rasterization routine
         return rasterize_gaussians(

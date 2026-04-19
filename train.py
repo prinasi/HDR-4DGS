@@ -141,18 +141,34 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
                 
                 # hdr loss
                 gt_image_hdr = viewpoint_cam.image_hdr
+                image_hdr = render_pkg["render_hdr"]
+
                 if gt_image_hdr is not None:
-                    gt_image_hdr = tone_map(gt_image_hdr.cuda())
-                    image_hdr = render_pkg["render_hdr"]
-               
-                    if image_hdr.max() > 0:
-                        # image_hdr = tone_map(torch.clamp(image_hdr/image_hdr.max(), 0.0, 1.0))
-                        image_hdr = tone_map(image_hdr)
-                    loss_hdr = (1.0 - opt.lambda_dssim) * l1_loss(image_hdr, gt_image_hdr) + (1.0 - ssim(image_hdr, gt_image_hdr)) * opt.lambda_dssim
+                    gt_image_hdr = gt_image_hdr.cuda()
+
+                    eps = 1e-6
+
+                    # TRUE HDR LOSS (log domain)
+                    loss_hdr_log = torch.abs(
+                        torch.log(image_hdr + eps) - torch.log(gt_image_hdr + eps)
+                    ).mean()
+
+                    # Optional: keep your old tone-mapped loss (stabilizes early training)
+                    image_hdr_tm = tone_map(image_hdr)
+                    gt_hdr_tm = tone_map(gt_image_hdr)
+
+                    loss_hdr_tm = (1.0 - opt.lambda_dssim) * l1_loss(image_hdr_tm, gt_hdr_tm) + \
+                                opt.lambda_dssim * (1.0 - ssim(image_hdr_tm, gt_hdr_tm))
+
+                    # Combine
+                    loss_hdr = 0.7 * loss_hdr_log + 0.3 * loss_hdr_tm
+                    #loss_hdr=loss_hdr_tm
+
                     assert not torch.isnan(loss_hdr), f"loss_hdr is nan at {iteration}th iteration"
+
                 else:
                     loss_hdr = 0.0
-
+                #loss_hdr=0
                 # Loss
                 Ll1 = l1_loss(image, gt_image) + l1_loss(extra_image, gt_image)
                 Lssim = 1.0 - ssim(image, gt_image) + 1.0 - ssim(extra_image, gt_image)

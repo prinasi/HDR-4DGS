@@ -27,6 +27,7 @@ import torch
 from multiprocessing.pool import ThreadPool
 import imagesize
 import imageio
+import pyexr
 
 
 class CameraInfo(NamedTuple):
@@ -247,7 +248,7 @@ def readCamerasFromTransforms(path, transformsfile, white_background, extension=
 
         if "exr_file_path" in frame:
             cam_name_hdr = os.path.join(path, frame["exr_file_path"])
-            image_hdr = np.array(imageio.imread(cam_name_hdr))[..., :3]
+            image_hdr = pyexr.open(cam_name_hdr).get()[:, :, :3]
             # image_hdr = image_hdr / image_hdr.max()
             # image_hdr = np.clip(image_hdr, 0.0, 1.0)
         else:

@@ -43,16 +43,16 @@ OptimizationParams:
   opacity_lr: 0.05
   scaling_lr: 0.005
   rotation_lr: 0.001
-  percent_dense: 0.01
+  percent_dense: 0.005
   lambda_dssim: 0.2
   thresh_opa_prune: 0.005
   densification_interval: 200
   opacity_reset_interval: 3000
   densify_from_iter: 500
-  densify_until_iter: 15_000
-  densify_grad_threshold: 0.0002 # 0.0002
+  densify_until_iter: 12_000
+  densify_grad_threshold: 0.0004 # 0.0002
 #  densify_grad_t_threshold: 0.0002 / 40 # 想办法用上
-  densify_until_num_points: -1
+  densify_until_num_points: 2000000
   final_prune_from_iter: -1
   sh_increase_interval: 1000
   lambda_opa_mask: 0.0

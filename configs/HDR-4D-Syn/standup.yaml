@@ -49,10 +49,10 @@ OptimizationParams:
   densification_interval: 200
   opacity_reset_interval: 3000
   densify_from_iter: 500
-  densify_until_iter: 16_000
+  densify_until_iter: 12000
   densify_grad_threshold: 0.0002
 #  densify_grad_t_threshold: 0.0002 / 40 # 想办法用上
-  densify_until_num_points: -1
+  densify_until_num_points: 2300000
   final_prune_from_iter: -1
   sh_increase_interval: 1000
   lambda_opa_mask: 0.0

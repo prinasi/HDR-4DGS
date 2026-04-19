@@ -90,7 +90,7 @@ class Scene:
             else:
                 self.gaussians.create_from_pcd(scene_info.point_cloud, self.cameras_extent)
 
-    def save(self, iteration, luminance_hist):
+    def save(self, iteration, luminance_hist=None):
         torch.save((self.gaussians.capture(), iteration, luminance_hist), self.model_path + "/chkpnt.pth")
 
     def getTrainCameras(self, scale=1.0):
