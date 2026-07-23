@@ -37,11 +37,11 @@ conda activate 4d_gaussian_splatting
 
 **HDR-4D-Syn dataset:**
 
-Download the proposed [HDR-4D-Syn dataset](https://drive.google.com/drive/folders/1L4hBtsSQ-us3biPpc8jvimr-FNy89sTU?usp=sharing) and put each scene to `data/HDR-4D-Syn`.
+Download the proposed [HDR-4D-Syn dataset](https://drive.google.com/drive/folders/1NOZFG5VHfsSir99qE7NVDMVyFcYcxC4q?usp=sharing) and put each scene to `data/HDR-4D-Syn`.
 
 **HDR-4D-Real dataset:**
 
-The dataset can be downloaded from [google drive](https://drive.google.com/drive/folders/18zVc3u47bV-8OX6E8AlvfOiWQX7EDuU8?usp=sharing).  Then, put each scene into `data/HDR-4D-Real`.
+The dataset can be downloaded from [google drive](https://drive.google.com/drive/folders/1tgVyLxe5WOkB7ZBrI3xdPJ-XA0r2MFoJ?usp=sharing).  Then, put each scene into `data/HDR-4D-Real`.
 
 
 ### Running
